@@ -53,19 +53,37 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
 
     public function tearDown()
     {
-        $this->db_con.exec("DROP DATABASE " . TEST_DATA_DATABASE_NAME . ";");
+        mysql_query("DROP DATABASE " . TEST_DATA_DATABASE_NAME . ";");
         mysql_close($this->db_con);
     }
 
     private function ensureTestDataExists()
     {
-        $this->db_con.exec("CREATE DATABASE " . TEST_DATA_DATABASE_NAME . ";");
-        $this->db_con.exec(OUTAGE_TABLE_DDL);
+        mysql_query("CREATE DATABASE " . TEST_DATA_DATABASE_NAME . ";") or die("ERROR: Unable to create database " . TEST_DATA_DATABASE_NAME . "!");
+        mysql_select_db(TEST_DATA_DATABASE_NAME) or die("ERROR: Unable to switch to " . TEST_DATA_DATABASE_NAME . "!");
+        mysql_query(OUTAGE_TABLE_DDL) or die("ERROR: Unable to create table!");
         $this->populateData();
     }
 
     private function populateData()
     {
+        $data = array
+        (
+            // pop, ticket, start_date, end_date, customer_impact, notes_information
+            array("pop", "ticket1", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
+            , array("pop", "ticket2", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
+            , array("pop", "ticket3", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
+            , array("pop", "ticket4", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
+            , array("pop", "ticket5", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
+        );
+
+        foreach($data as $datum)
+        {
+            $query = "INSERT INTO Outage
+                (pop, ticket, start_date, end_date, customer_impact, notes_information)
+                VALUES ('$datum[0]', '$datum[1]','$datum[2]','$datum[3]','$datum[4]','$datum[5]');";
+            mysql_query($query);
+        }
     }
 }
 

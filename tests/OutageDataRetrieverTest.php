@@ -6,7 +6,9 @@
  * Time: 3:18 PM
  */
 
-define ("TEST_DATA_DATABASE_NAME", "__test_data__");
+require_once(dirname(__FILE__) . "/../source/OutageDataRetriever.php");
+require_once(dirname(__FILE__) . "/../source/OutageData.php");
+
 define ("OUTAGE_TABLE_DDL", "create table Outage
 (
 	id int(9) not null primary key AUTO_INCREMENT,
@@ -36,52 +38,61 @@ define ("OUTAGE_TABLE_DDL", "create table Outage
 	restore mediumtext null
 );");
 
+/**
+ * Tests for OutageDataRetriever
+ */
 class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
 
     private $db_con = null;
 
-    public function testPass()
+    private static $sample_data = array
+    (
+        // pop, ticket, start_date, end_date, customer_impact, product, notes_information
+        array("pop", "ticket1", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product1", "Notes...")
+        , array("pop", "ticket2", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product1", "Notes...")
+        , array("pop", "ticket3", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product1", "Notes...")
+        , array("pop", "ticket4", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product2", "Notes...")
+        , array("pop", "ticket5", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product3", "Notes...")
+    );
+
+    public function testAllRecordsReturned()
     {
-        $this->assertTrue(true);
+        $retriever = new OutageDataRetriever();
+        $retrieved = $retriever->retrieve();
+
+        $this->assertEquals(5, $retrieved->getRowCount());
     }
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->db_con = mysql_connect("localhost", "dev_test", "dev&test");
-        $this->ensureTestDataExists();
+        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
+        mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
+        OutageDataRetrieverTest::ensureTestDataExists();
+        mysql_close($db_con);
     }
 
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
-        mysql_query("DROP DATABASE " . TEST_DATA_DATABASE_NAME . ";");
-        mysql_close($this->db_con);
+        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
+        mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
+        mysql_close($db_con);
     }
 
-    private function ensureTestDataExists()
+    private static function ensureTestDataExists()
     {
-        mysql_query("CREATE DATABASE " . TEST_DATA_DATABASE_NAME . ";") or die("ERROR: Unable to create database " . TEST_DATA_DATABASE_NAME . "!");
-        mysql_select_db(TEST_DATA_DATABASE_NAME) or die("ERROR: Unable to switch to " . TEST_DATA_DATABASE_NAME . "!");
+        mysql_query("CREATE DATABASE " . __MYSQL_DBNAME__ . ";") or die("ERROR: Unable to create database " . __MYSQL_DBNAME__ . "!");
+        mysql_select_db(__MYSQL_DBNAME__) or die("ERROR: Unable to switch to " . __MYSQL_DBNAME__ . "!");
         mysql_query(OUTAGE_TABLE_DDL) or die("ERROR: Unable to create table!");
-        $this->populateData();
+        OutageDataRetrieverTest::populateData();
     }
 
-    private function populateData()
+    private static function populateData()
     {
-        $data = array
-        (
-            // pop, ticket, start_date, end_date, customer_impact, notes_information
-            array("pop", "ticket1", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
-            , array("pop", "ticket2", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
-            , array("pop", "ticket3", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
-            , array("pop", "ticket4", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
-            , array("pop", "ticket5", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Notes...")
-        );
-
-        foreach($data as $datum)
+        foreach(OutageDataRetrieverTest::$sample_data as $datum)
         {
             $query = "INSERT INTO Outage
-                (pop, ticket, start_date, end_date, customer_impact, notes_information)
-                VALUES ('$datum[0]', '$datum[1]','$datum[2]','$datum[3]','$datum[4]','$datum[5]');";
+                (pop, ticket, start_date, end_date, customer_impact, product, notes_information)
+                VALUES ('$datum[0]', '$datum[1]', '$datum[2]', '$datum[3]', '$datum[4]', '$datum[5]', '$datum[6]');";
             mysql_query($query);
         }
     }

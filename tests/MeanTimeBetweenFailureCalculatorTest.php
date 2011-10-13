@@ -38,6 +38,12 @@ class MeanTimeBetweenFailuresCalculatorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals((226 + 496.5) / 2, $mtbfCalculator->calculate($this->start_up_time_seed, $records));
     }
 
+    public function testEmptyTimeSeriesReturnsZero()
+    {
+        $mtbfCalculator = new MeanTimeBetweenFailuresCalculator();
+        $this->assertEquals(0, $mtbfCalculator->calculate($this->start_up_time_seed, array()));
+    }
+
     private function buildComplexRecordList()
     {
         // zero index of second dimension array is the start of outage,

@@ -7,6 +7,7 @@
  */
 
 require_once(dirname(__FILE__) . "/../source/OutageDataRetriever.php");
+require_once(dirname(__FILE__) . "/../source/MeanTimeBetweenFailuresOutageDataRetriever.php");
 require_once(dirname(__FILE__) . "/../source/OutageData.php");
 
 define ("OUTAGE_TABLE_DDL", "create table Outage
@@ -43,8 +44,6 @@ define ("OUTAGE_TABLE_DDL", "create table Outage
  */
 class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
 
-    private $db_con = null;
-
     private static $sample_data = array
     (
         // pop, ticket, start_date, end_date, customer_impact, product, notes_information
@@ -56,21 +55,20 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
     );
 
     /**
-     * Test that all the records can be returned from the Outage table.
      * @return void
      */
-    public function testAllRecordsReturned()
+    public function testRetrieveDataForMeanTimeBetweenFailureOnly()
     {
-        $retriever = new OutageDataRetriever();
+        $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
         $retrieved = $retriever->retrieve();
 
         $this->assertEquals(5, $retrieved->getRowCount());
-        echo "The 'column' count is: ==> " . sizeof($retrieved->getResults());
-    }
 
-    public function testRetrieveDataForMeanTimeBetweenFailureOnly()
-    {
-        
+        $results = $retrieved->getResults();
+        $this->assertEquals(2, sizeof($results[0]));
+
+        $this->assertNotNull($results[0]["start_date"]);
+        $this->assertNotNull($results[0]["end_date"]);
     }
 
     public static function setUpBeforeClass()

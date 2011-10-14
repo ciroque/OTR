@@ -57,7 +57,7 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
     /**
      * @return void
      */
-    public function testRetrieveDataForMeanTimeBetweenFailureOnly()
+    public function testMeanTimeBetweenFailuresOutageDataRetriever()
     {
         $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
         $retrieved = $retriever->retrieve();

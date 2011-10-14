@@ -55,12 +55,22 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
         , array("pop", "ticket5", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product3", "Notes...")
     );
 
+    /**
+     * Test that all the records can be returned from the Outage table.
+     * @return void
+     */
     public function testAllRecordsReturned()
     {
         $retriever = new OutageDataRetriever();
         $retrieved = $retriever->retrieve();
 
         $this->assertEquals(5, $retrieved->getRowCount());
+        echo "The 'column' count is: ==> " . sizeof($retrieved->getResults());
+    }
+
+    public function testRetrieveDataForMeanTimeBetweenFailureOnly()
+    {
+        
     }
 
     public static function setUpBeforeClass()

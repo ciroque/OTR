@@ -15,8 +15,19 @@ class OutageDataRetriever
         $connection = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
         mysql_select_db(__MYSQL_DBNAME__);
         $results = mysql_query("SELECT * FROM Outage");
-        $return_value = new OutageData(mysql_num_rows($results), mysql_fetch_array($results));
+        $row_count = mysql_num_rows($results);
+        $results_array = $this->retrieveAllRecords($results);
+        $return_value = new OutageData($row_count, mysql_fetch_array($results));
         mysql_close($connection);
         return $return_value;
+    }
+
+    private function retrieveAllRecords($results)
+    {
+        $array = array();
+        while($row = mysql_fetch_array($results, MYSQL_NUM))
+        {
+            
+        }
     }
 }

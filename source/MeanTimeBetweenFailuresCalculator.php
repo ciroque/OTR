@@ -11,11 +11,12 @@ require_once("iTimeSeriesCalculator.php");
 
 define ("SECONDS_PER_HOUR", 60 * 60);
 
-class MeanTimeBetweenFailuresCalculator implements iTimeSeriesCalculator {
+class MeanTimeBetweenFailuresCalculator implements ITimeSeriesCalculator {
 
     private $down_count = 0;
 
     /**
+     * @param $up_time_seed the initial date / time that should be considered by the calculations.
      * @param $time_series array containing two date fields (zero index is the start date/time, one index is the end date / time)
      * @return a value representing the result of the calculation performed against the time series.
      */

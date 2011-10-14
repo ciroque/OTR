@@ -10,6 +10,9 @@ require_once("config.php");
  */
 class OutageDataRetriever
 {
+    /**
+     * @return OutageData an instance initialized with the data returned from the database.
+     */
     public function retrieve()
     {
         $connection = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
@@ -17,11 +20,15 @@ class OutageDataRetriever
         $results = mysql_query("SELECT * FROM Outage");
         $row_count = mysql_num_rows($results);
         $results_array = $this->retrieveAllRecords($results);
-        $return_value = new OutageData($row_count, mysql_fetch_array($results));
+        $return_value = new OutageData($row_count, $results_array);
         mysql_close($connection);
         return $return_value;
     }
 
+    /**
+     * @param $results
+     * @return void
+     */
     private function retrieveAllRecords($results)
     {
         $array = array();
@@ -29,5 +36,6 @@ class OutageDataRetriever
         {
             
         }
+        return $array;
     }
 }

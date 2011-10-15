@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-require_once("iTimeSeriesCalculator.php");
+require_once("../Core/ITimeSeriesCalculator.php");
 
 define ("SECONDS_PER_HOUR", 60 * 60);
 
@@ -34,3 +34,4 @@ class MeanTimeBetweenFailuresCalculator implements ITimeSeriesCalculator {
         return $this->down_count == 0 ? 0 : $down_time_sum / $this->down_count;
     }
 }
+?>

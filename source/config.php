@@ -12,3 +12,4 @@ define("__MYSQL_DBNAME__", "__test_data__");
 define("__MYSQL_USERNAME__", "dev_test");
 define("__MYSQL_PASSWORD__", "dev&test");
  
+?>

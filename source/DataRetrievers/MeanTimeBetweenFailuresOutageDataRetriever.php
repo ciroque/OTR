@@ -15,3 +15,4 @@ class MeanTimeBetweenFailuresOutageDataRetriever extends OutageDataRetriever
         return $this->retrieveImpl($sql);
     }
 }
+?>

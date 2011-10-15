@@ -6,7 +6,7 @@
  * Time: 11:20 AM
  */
 
-require_once(dirname(__FILE__) . "/../source/MeanTimeBetweenFailuresCalculator.php");
+require_once(dirname(__FILE__) . "/../source/Calculators/MeanTimeBetweenFailuresCalculator.php");
 
 class MeanTimeBetweenFailuresCalculatorTest extends PHPUnit_Framework_TestCase {
     public $start_up_time_seed = "0001-01-01 00:00:00";
@@ -64,3 +64,5 @@ class MeanTimeBetweenFailuresCalculatorTest extends PHPUnit_Framework_TestCase {
         );
     }
 }
+
+?>

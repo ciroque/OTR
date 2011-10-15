@@ -37,3 +37,4 @@ class OutageData {
         return $this->row_count;
     }
 }
+?>

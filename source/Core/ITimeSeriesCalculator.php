@@ -20,3 +20,4 @@ interface ITimeSeriesCalculator {
      */
     public function calculate($up_time_seed, array $time_series);
 }
+?>

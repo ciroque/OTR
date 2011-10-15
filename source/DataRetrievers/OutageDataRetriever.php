@@ -40,3 +40,4 @@ abstract class OutageDataRetriever implements ITimeSeriesRetriever
         return $array;
     }
 }
+?>

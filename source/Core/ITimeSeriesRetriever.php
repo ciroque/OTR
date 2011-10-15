@@ -11,3 +11,4 @@ interface ITimeSeriesRetriever
 {
     public function retrieve();
 }
+?>

@@ -6,7 +6,9 @@
  * Time: 1:55 PM
  * To change this template use File | Settings | File Templates.
  */
- 
+
+require_once("OutageDataRetriever.php");
+
 class MeanTimeBetweenFailuresOutageDataRetriever extends OutageDataRetriever
 {
     public function retrieve($product = null)

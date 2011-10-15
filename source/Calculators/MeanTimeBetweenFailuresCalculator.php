@@ -7,11 +7,12 @@
  * To change this template use File | Settings | File Templates.
  */
 
-require_once("../Core/ITimeSeriesCalculator.php");
+require_once(dirname(__FILE__) . "/../Core/ITimeSeriesCalculator.php");
 
 define ("SECONDS_PER_HOUR", 60 * 60);
 
-class MeanTimeBetweenFailuresCalculator implements ITimeSeriesCalculator {
+class MeanTimeBetweenFailuresCalculator implements ITimeSeriesCalculator
+{
 
     private $down_count = 0;
 

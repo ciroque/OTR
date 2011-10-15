@@ -1,7 +1,7 @@
 <?php
 
-require_once("config.php");
-require_once("ITimeSeriesRetriever.php");
+require_once(dirname(__FILE__) . "/../config.php");
+require_once(dirname(__FILE__) . "/../Core/ITimeSeriesRetriever.php");
 
 /**
  * Created by JetBrains PhpStorm.

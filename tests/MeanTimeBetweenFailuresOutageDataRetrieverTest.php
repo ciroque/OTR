@@ -6,9 +6,9 @@
  * Time: 3:18 PM
  */
 
-require_once(dirname(__FILE__) . "/../source/OutageDataRetriever.php");
-require_once(dirname(__FILE__) . "/../source/MeanTimeBetweenFailuresOutageDataRetriever.php");
-require_once(dirname(__FILE__) . "/../source/OutageData.php");
+require_once(dirname(__FILE__) . "/../source/DataRetrievers/OutageDataRetriever.php");
+require_once(dirname(__FILE__) . "/../source/DataRetrievers/MeanTimeBetweenFailuresOutageDataRetriever.php");
+require_once(dirname(__FILE__) . "/../source/Core/OutageData.php");
 
 define ("OUTAGE_TABLE_DDL", "create table Outage
 (
@@ -42,16 +42,20 @@ define ("OUTAGE_TABLE_DDL", "create table Outage
 /**
  * Tests for OutageDataRetriever
  */
-class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
+class MeanTimeBetweenFailuresOutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
 
     private static $sample_data = array
     (
         // pop, ticket, start_date, end_date, customer_impact, product, notes_information
-        array("pop", "ticket1", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product1", "Notes...")
-        , array("pop", "ticket2", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product1", "Notes...")
-        , array("pop", "ticket3", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product1", "Notes...")
-        , array("pop", "ticket4", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product2", "Notes...")
-        , array("pop", "ticket5", "0001-01-01 00:00:00", "0001-01-01 00:00:00", "Very impactfull", "Product3", "Notes...")
+          array("pop", "ticket1", "0001-01-01 00:00:00", "0001-01-01 01:00:00", "Very impactful", "Product1", "Notes...")
+        , array("pop", "ticket2", "0001-01-02 00:00:00", "0001-01-02 01:00:00", "Very impactful", "Product1", "Notes...")
+        , array("pop", "ticket3", "0001-01-03 00:00:00", "0001-01-03 01:00:00", "Very impactful", "Product1", "Notes...")
+
+        , array("pop", "ticket4", "0001-01-04 00:00:00", "0001-01-04 01:00:00", "Very impactful", "Product2", "Notes...")
+        , array("pop", "ticket4", "0001-01-05 00:00:00", "0001-01-05 01:00:00", "Very impactful", "Product2", "Notes...")
+
+        , array("pop", "ticket5", "0001-01-06 00:00:00", "0001-01-06 01:00:00", "Very impactful", "Product3", "Notes...")
+        , array("pop", "ticket5", "0001-01-07 00:00:00", "0001-01-07 01:00:00", "Very impactful", "Product3", "Notes...")
     );
 
     /**
@@ -62,7 +66,7 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
         $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
         $retrieved = $retriever->retrieve();
 
-        $this->assertEquals(5, $retrieved->getRowCount());
+        $this->assertEquals(sizeof(MeanTimeBetweenFailuresOutageDataRetrieverTest::$sample_data), $retrieved->getRowCount());
 
         $results = $retrieved->getResults();
         $this->assertEquals(2, sizeof($results[0]));
@@ -71,11 +75,24 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
         $this->assertNotNull($results[0]["end_date"]);
     }
 
+    public function testRetrieverReturnsTimeSeriesForSpecificProduct()
+    {
+        $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
+        $retrieved = $retriever->retrieve("Product1");
+        $this->assertEquals(3, $retrieved->getRowCount());
+
+        $retrieved = $retriever->retrieve("Product2");
+        $this->assertEquals(2, $retrieved->getRowCount());
+
+        $retrieved = $retriever->retrieve("Product3");
+        $this->assertEquals(2, $retrieved->getRowCount());
+    }
+
     public static function setUpBeforeClass()
     {
         $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
         mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
-        OutageDataRetrieverTest::ensureTestDataExists();
+        MeanTimeBetweenFailuresOutageDataRetrieverTest::ensureTestDataExists();
         mysql_close($db_con);
     }
 
@@ -91,12 +108,12 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
         mysql_query("CREATE DATABASE " . __MYSQL_DBNAME__ . ";") or die("ERROR: Unable to create database " . __MYSQL_DBNAME__ . "!");
         mysql_select_db(__MYSQL_DBNAME__) or die("ERROR: Unable to switch to " . __MYSQL_DBNAME__ . "!");
         mysql_query(OUTAGE_TABLE_DDL) or die("ERROR: Unable to create table!");
-        OutageDataRetrieverTest::populateData();
+        MeanTimeBetweenFailuresOutageDataRetrieverTest::populateData();
     }
 
     private static function populateData()
     {
-        foreach(OutageDataRetrieverTest::$sample_data as $datum)
+        foreach(MeanTimeBetweenFailuresOutageDataRetrieverTest::$sample_data as $datum)
         {
             $query = "INSERT INTO Outage
                 (pop, ticket, start_date, end_date, customer_impact, product, notes_information)
@@ -105,5 +122,4 @@ class OutageDataRetrieverTest extends PHPUnit_Framework_TestCase {
         }
     }
 }
-
 ?>

@@ -22,9 +22,18 @@ class MeanTimeBetweenFailuresReportGenerator implements IReportGenerator
         $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
         $calculator = new MeanTimeBetweenFailuresCalculator();
 
-        $time_series_data = $retriever->retrieve();
-        
-        $result = $calculator->calculate(__EPOCH__, $time_series_data);
+        $outage_data_map = $retriever->retrieve();
+
+        $result_array = array();
+
+        foreach($outage_data_map as $key => $value)
+        {
+            $result_array[$key] = $calculator->calculate(__EPOCH__, $value);
+        }
+
+        $result_array["All Products"] = $calculator->calculate(__EPOCH__, $outage_data_map->getAllDataPoints());
+
+        return $result_array;
     }
 }
 ?>

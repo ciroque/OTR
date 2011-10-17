@@ -23,6 +23,7 @@ class MeanTimeBetweenFailuresCalculator implements ITimeSeriesCalculator
      */
     public function calculate($epoch, array $time_series)
     {
+        $this->down_count = 0;
         $prev_up_time = $epoch;
         $down_time_sum = 0;
         foreach($time_series as $record)

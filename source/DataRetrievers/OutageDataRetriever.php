@@ -2,6 +2,7 @@
 
 require_once(dirname(__FILE__) . "/../config.php");
 require_once(dirname(__FILE__) . "/../Core/ITimeSeriesRetriever.php");
+require_once(dirname(__FILE__) . "/../Core/OutageData.php");
 
 /**
  * Created by JetBrains PhpStorm.

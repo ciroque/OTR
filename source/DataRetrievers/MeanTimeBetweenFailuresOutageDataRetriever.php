@@ -8,6 +8,7 @@
  */
 
 require_once("OutageDataRetriever.php");
+require_once("../Core/OutageDataMap.php");
 
 class MeanTimeBetweenFailuresOutageDataRetriever extends OutageDataRetriever
 {

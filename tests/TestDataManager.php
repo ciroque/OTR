@@ -71,9 +71,9 @@ class TestDataManager {
 
     public static function tearDownDatabase()
     {
-        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
-        mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
-        mysql_close($db_con);
+//        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
+//        mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
+//        mysql_close($db_con);
     }
 
     private static function ensureTestDataExists()

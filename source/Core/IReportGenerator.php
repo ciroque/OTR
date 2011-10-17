@@ -8,5 +8,5 @@
  */
 
 interface IReportGenerator {
-    public function generate($criteria);
+    public function generate();
 }

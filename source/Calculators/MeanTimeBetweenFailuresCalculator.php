@@ -28,8 +28,8 @@ class MeanTimeBetweenFailuresCalculator implements ITimeSeriesCalculator
         foreach($time_series as $record)
         {
             $this->down_count++;
-            $down_time_sum += ((strtotime($record[0]) - strtotime($prev_up_time)) / SECONDS_PER_HOUR);
-            $prev_up_time = $record[1];
+            $down_time_sum += ((strtotime($record["start_date"]) - strtotime($prev_up_time)) / SECONDS_PER_HOUR);
+            $prev_up_time = $record["end_date"];
         }
 
         return $this->down_count == 0 ? 0 : $down_time_sum / $this->down_count;

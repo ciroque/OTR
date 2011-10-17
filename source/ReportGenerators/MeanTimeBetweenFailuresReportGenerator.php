@@ -17,35 +17,14 @@ $result_label = "";
 class MeanTimeBetweenFailuresReportGenerator implements IReportGenerator
 {
 
-    public function generate($criteria = null)
+    public function generate()
     {
         $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
         $calculator = new MeanTimeBetweenFailuresCalculator();
 
-        $time_series_data = $retriever->retrieve($criteria);
+        $time_series_data = $retriever->retrieve();
+        
         $result = $calculator->calculate(__EPOCH__, $time_series_data);
-
-        if(isset($criteria))
-        {
-            $result_label = "All products";
-        }
-        else
-        {
-            $result_label = $criteria;
-        }
     }
 }
 ?>
-
-<table>
-    <tbody>
-        <tr>
-            <th>Product</th>
-            <th>MTBF</th>
-        </tr>
-        <tr>
-            <td><?php echo $result_label; ?></td>
-            <td><?php echo $result; ?></td>
-        </tr>
-    </tbody>
-</table>

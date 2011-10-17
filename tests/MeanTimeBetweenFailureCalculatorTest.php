@@ -49,8 +49,8 @@ class MeanTimeBetweenFailuresCalculatorTest extends PHPUnit_Framework_TestCase {
         // zero index of second dimension array is the start of outage,
         // one index of second dimension array is the end of the outage.
         return array(
-            array("0001-01-10 10:00:00", "0001-01-10 10:30:00"),
-            array("0001-01-31 03:00:00", "0001-01-01 04:00:00"),
+            array("start_date" => "0001-01-10 10:00:00", "end_date" => "0001-01-10 10:30:00"),
+            array("start_date" => "0001-01-31 03:00:00", "end_date" => "0001-01-01 04:00:00"),
         );
     }
 
@@ -59,8 +59,8 @@ class MeanTimeBetweenFailuresCalculatorTest extends PHPUnit_Framework_TestCase {
         // zero index of second dimension array is the start of outage,
         // one index of second dimension array is the end of the outage.
         return array(
-            array("0001-01-01 01:00:00", "0001-01-01 02:00:00"),
-            array("0001-01-01 03:00:00", "0001-01-01 04:00:00"),
+            array("start_date" => "0001-01-01 01:00:00", "end_date" => "0001-01-01 02:00:00"),
+            array("start_date" => "0001-01-01 03:00:00", "end_date" => "0001-01-01 04:00:00"),
         );
     }
 }

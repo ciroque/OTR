@@ -58,23 +58,6 @@ class MeanTimeBetweenFailuresOutageDataRetrieverTest extends PHPUnit_Framework_T
         , array("pop", "ticket5", "0001-01-07 00:00:00", "0001-01-07 01:00:00", "Very impactful", "Product3", "Notes...")
     );
 
-    /**
-     * @return void
-     */
-    public function testMeanTimeBetweenFailuresOutageDataRetriever()
-    {
-        $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
-        $retrieved = $retriever->retrieve();
-
-        $this->assertEquals(sizeof(MeanTimeBetweenFailuresOutageDataRetrieverTest::$sample_data), $retrieved->getRowCount());
-
-        $results = $retrieved->getResults();
-        $this->assertEquals(2, sizeof($results[0]));
-
-        $this->assertNotNull($results[0]["start_date"]);
-        $this->assertNotNull($results[0]["end_date"]);
-    }
-
     public function testRetrieverReturnsTimeSeriesForSpecificProduct()
     {
         $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();

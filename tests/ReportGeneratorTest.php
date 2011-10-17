@@ -16,7 +16,7 @@ class ReportGeneratorTest extends PHPUnit_Framework_TestCase {
         $generator = new MeanTimeBetweenFailuresReportGenerator();
 
         // no criteria
-        $report = $generator->generate();
-        echo $report;
+//        $report = $generator->generate();
+//        echo $report;
     }
 }

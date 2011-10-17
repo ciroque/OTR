@@ -13,12 +13,21 @@ class MeanTimeBetweenFailuresOutageDataRetriever extends OutageDataRetriever
 {
     public function retrieve($product = null)
     {
-        $sql = "SELECT start_date, end_date FROM Outage";
+        $sql = "SELECT product, start_date, end_date FROM Outage";
         if(isset($product))
         {
             $sql .= " WHERE product = '$product'";
         }
-        return $this->retrieveImpl($sql);
+
+        $outage_data = $this->retrieveImpl($sql);
+        $outage_data_map = new OutageDataMap();
+
+        foreach($outage_data->getResults() as $data)
+        {
+            $outage_data_map->add($data["product"], $data["start_date"], $data["end_date"]);
+        }
+
+        return $outage_data_map;
     }
 }
 ?>

@@ -4,7 +4,6 @@
  * User: stevewagner
  * Date: 10/12/11
  * Time: 1:49 PM
- * To change this template use File | Settings | File Templates.
  */
 
 require_once(dirname(__FILE__) . "/../Core/ITimeSeriesCalculator.php");

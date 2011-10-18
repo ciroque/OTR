@@ -4,11 +4,10 @@
  * User: swagner
  * Date: 10/14/11
  * Time: 1:55 PM
- * To change this template use File | Settings | File Templates.
  */
 
 require_once("OutageDataRetriever.php");
-require_once("../Core/OutageDataMap.php");
+require_once(dirname(__FILE__) . "/../Core/OutageDataMap.php");
 
 class MeanTimeBetweenFailuresOutageDataRetriever extends OutageDataRetriever
 {

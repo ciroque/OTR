@@ -1,15 +1,13 @@
 <?php
 
-require_once(dirname(__FILE__) . "/../source/Core/OutageDataMap.php");
-
 /**
  * Created by JetBrains PhpStorm.
  * User: stevewagner
  * Date: 10/17/11
  * Time: 9:40 AM
- *
- *
  */
+
+require_once(dirname(__FILE__) . "/../source/Core/OutageDataMap.php");
 
 define("__GROUP_ONE__", "GroupOne");
 define("__GROUP_TWO__", "GroupTwo");

@@ -1,15 +1,15 @@
 <?php
-
-require_once(dirname(__FILE__) . "/../config.php");
-require_once(dirname(__FILE__) . "/../Core/ITimeSeriesRetriever.php");
-require_once(dirname(__FILE__) . "/../Core/OutageData.php");
-
 /**
  * Created by JetBrains PhpStorm.
  * User: stevewagner
  * Date: 10/13/11
  * Time: 9:09 AM
  */
+
+require_once(dirname(__FILE__) . "/../config.php");
+require_once(dirname(__FILE__) . "/../Core/ITimeSeriesRetriever.php");
+require_once(dirname(__FILE__) . "/../Core/OutageData.php");
+
 abstract class OutageDataRetriever implements ITimeSeriesRetriever
 {
     /**

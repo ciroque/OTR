@@ -28,13 +28,5 @@ class OutageData {
     {
         return $this->results;
     }
-
-    /**
-     * @return int | the number of rows in the time series data.
-     */
-    public function getRowCount()
-    {
-        return $this->row_count;
-    }
 }
 ?>

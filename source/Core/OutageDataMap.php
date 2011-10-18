@@ -4,7 +4,6 @@
  * User: stevewagner
  * Date: 10/17/11
  * Time: 9:57 AM
- * To change this template use File | Settings | File Templates.
  */
  
 class OutageDataMap extends ArrayObject

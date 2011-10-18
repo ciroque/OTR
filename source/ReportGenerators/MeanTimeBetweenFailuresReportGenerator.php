@@ -4,7 +4,6 @@
  * User: stevewagner
  * Date: 10/14/11
  * Time: 7:25 PM
- * To change this template use File | Settings | File Templates.
  */
 
 require_once(dirname(__FILE__) . "/../Core/IReportGenerator.php");

@@ -4,7 +4,6 @@
  * User: stevewagner
  * Date: 10/13/11
  * Time: 9:22 AM
- * To change this template use File | Settings | File Templates.
  */
 
 define("__MYSQL_HOSTNAME__", "localhost");

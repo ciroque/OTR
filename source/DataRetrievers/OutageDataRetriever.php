@@ -12,19 +12,33 @@ require_once(dirname(__FILE__) . "/../Core/OutageData.php");
 
 abstract class OutageDataRetriever implements ITimeSeriesRetriever
 {
+    private $sql_interface = null;
+
+    function __construct(ISqlInterface $sql_interface)
+    {
+        $this->sql_interface = $sql_interface;
+    }
+
     /**
      * @return OutageData an instance initialized with the data returned from the database.
      */
     protected function retrieveImpl($selector)
     {
-        $connection = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
-        mysql_select_db(__MYSQL_DBNAME__);
-        $results = mysql_query($selector);
-        $row_count = mysql_num_rows($results);
-        $results_array = $this->buildArrayFromResults($results);
-        $return_value = new OutageData($row_count, $results_array);
-        mysql_close($connection);
-        return $return_value;
+        $this->sql_interface->open();
+
+        $results_array = $this->sql_interface->executeSql($selector);
+
+        
+
+        $this->sql_interface->close();
+//        $connection = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
+//        mysql_select_db(__MYSQL_DBNAME__);
+//        $results = mysql_query($selector);
+//        $row_count = mysql_num_rows($results);
+//        $results_array = $this->buildArrayFromResults($results);
+//        $return_value = new OutageData($row_count, $results_array);
+//        mysql_close($connection);
+//        return $return_value;
     }
 
     /**

@@ -5,7 +5,9 @@
  * Date: 10/18/11
  * Time: 4:48 PM
  */
- 
+
+require_once("SqlInterface.php");
+
 class PostgresInterface extends SqlInterface
 {
     /**
@@ -29,6 +31,7 @@ class PostgresInterface extends SqlInterface
         {
             $array[] = $row;
         }
+
         return $array;
     }
 
@@ -40,7 +43,7 @@ class PostgresInterface extends SqlInterface
         if($this->connection == null)
         {
             $this->connection = pg_connect(
-                "host=$this->hostname user=$this->username password=$this->password");
+                "host=$this->hostname user=$this->username password=$this->password host=$this->hostname");
         }
     }
 }

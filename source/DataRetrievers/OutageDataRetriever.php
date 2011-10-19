@@ -14,45 +14,29 @@ abstract class OutageDataRetriever implements ITimeSeriesRetriever
 {
     private $sql_interface = null;
 
+    /**
+     * @param ISqlInterface $sql_interface abstracts away the underlying database operation functions.
+     * By using implementations of this interface the business logic becomes immune to changes in database vendors.
+     * It also allows multiple database engines to be queried for report generation.
+     */
     function __construct(ISqlInterface $sql_interface)
     {
         $this->sql_interface = $sql_interface;
     }
 
     /**
+     * @param $selector the SQL statement to be executed.
      * @return OutageData an instance initialized with the data returned from the database.
      */
     protected function retrieveImpl($selector)
     {
         $this->sql_interface->open();
-
         $results_array = $this->sql_interface->executeSql($selector);
-
-        
-
         $this->sql_interface->close();
-//        $connection = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
-//        mysql_select_db(__MYSQL_DBNAME__);
-//        $results = mysql_query($selector);
-//        $row_count = mysql_num_rows($results);
-//        $results_array = $this->buildArrayFromResults($results);
-//        $return_value = new OutageData($row_count, $results_array);
-//        mysql_close($connection);
-//        return $return_value;
-    }
 
-    /**
-     * @param $results
-     * @return void
-     */
-    private function buildArrayFromResults($results)
-    {
-        $array = array();
-        while($row = mysql_fetch_array($results, MYSQL_ASSOC))
-        {
-            $array[] = $row;
-        }
-        return $array;
+        $row_count = sizeof($results_array);
+        $return_value = new OutageData($row_count, $results_array);
+        return $return_value;
     }
 }
 ?>

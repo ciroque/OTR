@@ -19,7 +19,7 @@ interface ISqlInterface
      * @param string $sql the SQL query to be executed.
      * @return null | array the results as an associative array.
      */
-    public function executeSql(string $sql);
+    public function executeSql($sql);
 
     /**
      * @abstract opens a connection to the database.

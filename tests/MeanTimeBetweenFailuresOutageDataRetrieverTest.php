@@ -10,7 +10,7 @@ require_once("TestDataManager.php");
 require_once(dirname(__FILE__) . "/../source/DataRetrievers/OutageDataRetriever.php");
 require_once(dirname(__FILE__) . "/../source/DataRetrievers/MeanTimeBetweenFailuresOutageDataRetriever.php");
 require_once(dirname(__FILE__) . "/../source/Core/OutageData.php");
-
+require_once(dirname(__FILE__) . "/../source/SqlInterfaces/MySqlInterface.php");
 
 /**
  * Tests for OutageDataRetriever
@@ -19,7 +19,12 @@ class MeanTimeBetweenFailuresOutageDataRetrieverTest extends PHPUnit_Framework_T
 
     public function testRetrieverReturnsTimeSeriesForSpecificProduct()
     {
-        $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
+        $sql_interface = new MySqlInterface(
+            __MYSQL_HOSTNAME__,
+            __MYSQL_DBNAME__,
+            __MYSQL_USERNAME__,
+            __MYSQL_PASSWORD__);
+        $retriever = new MeanTimeBetweenFailuresOutageDataRetriever($sql_interface);
         $retrieved = $retriever->retrieve("Product1");
         $this->assertEquals(3, $retrieved->getRowCount());
 

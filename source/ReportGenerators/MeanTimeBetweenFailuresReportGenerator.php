@@ -18,7 +18,13 @@ class MeanTimeBetweenFailuresReportGenerator implements IReportGenerator
 
     public function generate()
     {
-        $retriever = new MeanTimeBetweenFailuresOutageDataRetriever();
+        $sql_interface = new MySqlInterface(
+            __MYSQL_HOSTNAME__,
+            __MYSQL_DBNAME__,
+            __MYSQL_USERNAME__,
+            __MYSQL_PASSWORD__);
+
+        $retriever = new MeanTimeBetweenFailuresOutageDataRetriever($sql_interface);
         $calculator = new MeanTimeBetweenFailuresCalculator();
 
         $outage_data_map = $retriever->retrieve();

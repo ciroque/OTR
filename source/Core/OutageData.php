@@ -4,6 +4,10 @@
  * User: stevewagner
  * Date: 10/13/11
  * Time: 11:25 AM
+ *
+ * Abstraction of the data set returned by a given IDataRetriever implementation.
+ * NOTE: Probably a bit of overkill, the retrievers *could* return a simple array, but
+ * this offers opportunity to stash metadata in with the results as necessary.
  */
 class OutageData {
 

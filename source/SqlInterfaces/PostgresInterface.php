@@ -4,6 +4,8 @@
  * User: swagner
  * Date: 10/18/11
  * Time: 4:48 PM
+ *
+ * A more specific implementation of the SqlInterface that supports the MySQL database.
  */
 
 require_once("SqlInterface.php");
@@ -11,6 +13,7 @@ require_once("SqlInterface.php");
 class PostgresInterface extends SqlInterface
 {
     /**
+     * @abstract closes the connection to the database.
      * @return void
      */
     public function close()
@@ -20,6 +23,7 @@ class PostgresInterface extends SqlInterface
     }
 
     /**
+     * @abstract executes the given SQL statement against the database and returns the data as an array.
      * @param string $sql the SQL query to be executed.
      * @return null | array the results as an associative array.
      */
@@ -36,6 +40,7 @@ class PostgresInterface extends SqlInterface
     }
 
     /**
+     * @abstract opens a connection to the database.
      * @return void
      */
     public function open()

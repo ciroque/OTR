@@ -4,6 +4,9 @@
  * User: swagner
  * Date: 10/14/11
  * Time: 1:55 PM
+ *
+ * A more specific implementation of the OutageDataRetriever generalization targetting the data
+ * necessary to build a time series that can be used to calculate Mean Time Between Failures.
  */
 
 require_once("OutageDataRetriever.php");

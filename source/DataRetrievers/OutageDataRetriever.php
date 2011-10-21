@@ -4,6 +4,9 @@
  * User: stevewagner
  * Date: 10/13/11
  * Time: 9:09 AM
+ *
+ * Generalized implementation for extracting time series data from a provided ISqlInterface
+ * implementation.
  */
 
 require_once(dirname(__FILE__) . "/../config.php");

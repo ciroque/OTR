@@ -4,14 +4,15 @@
  * User: stevewagner
  * Date: 10/14/11
  * Time: 7:25 PM
+ *
+ * Glues all the bits and pieces together to actually realize the report values for the
+ * Mean Time Between Failures report.
  */
 
 require_once(dirname(__FILE__) . "/../Core/IReportGenerator.php");
 require_once(dirname(__FILE__) . "/../Calculators/MeanTimeBetweenFailuresCalculator.php");
 require_once(dirname(__FILE__) . "/../DataRetrievers/MeanTimeBetweenFailuresOutageDataRetriever.php");
-
-$result = 0;
-$result_label = "";
+require_once(dirname(__FILE__) . "/../SqlInterfaces/MySqlInterface.php");
 
 class MeanTimeBetweenFailuresReportGenerator implements IReportGenerator
 {

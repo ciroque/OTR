@@ -4,6 +4,8 @@
  * User: swagner
  * Date: 10/18/11
  * Time: 4:40 PM
+ *
+ * Interface that defines the common entry points for SQL functionality.
  */
 interface ISqlInterface
 {

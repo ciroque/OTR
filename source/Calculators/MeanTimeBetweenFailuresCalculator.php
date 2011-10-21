@@ -4,6 +4,8 @@
  * User: stevewagner
  * Date: 10/12/11
  * Time: 1:49 PM
+ *
+ * Implementation of the ITimeSeriesCalculator interface that calculates the Mean Time Between Failures.
  */
 
 require_once(dirname(__FILE__) . "/../Core/ITimeSeriesCalculator.php");

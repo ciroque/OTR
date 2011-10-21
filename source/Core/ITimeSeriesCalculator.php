@@ -4,12 +4,10 @@
  * User: stevewagner
  * Date: 10/12/11
  * Time: 11:56 AM
+ *
+ * The ITimeSeriesCalculator interface which defines the methods required to implement a standard calculation against a list of time series data.
  */
 
-/**
- * The iTimeSeriesCalculator interface which defines the methods required to implement a standard calculation against
- * a list of time series data.
- */
 interface ITimeSeriesCalculator {
 
     /**

@@ -12,17 +12,20 @@ require_once("SqlInterface.php");
 
 class MySqlInterface extends SqlInterface
 {
-    function __construct($hostname, $database, $username, $password)
-    {
-        parent::__construct($hostname, $database, $username, $password);
-    }
+    private $auto_opened = false;
 
     /**
      * @abstract closes the connection to the database.
      * @return void
-     */    public function close()
+     */
+    public function close()
     {
-        mysql_close($this->connection);
+        if($this->connection != null)
+        {
+            mysql_close($this->connection);
+            $this->connection = null;
+            $this->auto_opened = false;
+        }
     }
 
     /**
@@ -32,6 +35,8 @@ class MySqlInterface extends SqlInterface
      */
     public function executeSql($sql)
     {
+        $this->ensureConnectionIsOpen();
+
         $results = mysql_query($sql);
         $array = array();
         while($row = mysql_fetch_array($results, MYSQL_ASSOC))
@@ -39,20 +44,44 @@ class MySqlInterface extends SqlInterface
             $array[] = $row;
         }
         mysql_free_result($results);
+
+        $this->closeIfAutoOpened();
+
         return $array;
     }
 
     /**
-     * @abstract opens a connection to the database.
+     * @abstract opens a connection to the database. NOTE: Clients need not call open if there is just a single
+     * query to be run. Call open only when multiple statements need to be run in short order.
      * @return void
      */
     public function open()
     {
-        $this->connection = mysql_connect(
-            $this->hostname,
-            $this->username,
-            $this->password);
+        if($this->connection == null)
+        {
+            $this->connection = mysql_connect(
+                $this->hostname,
+                $this->username,
+                $this->password);
+        }
 
         mysql_select_db($this->database);
+
+        $this->auto_opened = false;
+    }
+
+    private function closeIfAutoOpened()
+    {
+        if ($this->auto_opened) {
+            $this->close();
+        }
+    }
+
+    private function ensureConnectionIsOpen()
+    {
+        if ($this->connection == null) {
+            $this->open();
+            $this->auto_opened = true;
+        }
     }
 }

@@ -63,20 +63,24 @@ class TestDataManager {
 
     public static function setUpDatabase()
     {
-        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
-        mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
-        TestDataManager::ensureTestDataExists();
-        mysql_close($db_con);
+        TestDataManager::executeInOpenDatabase(
+            function()
+            {
+                mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
+                TestDataManager::ensureTestDataExists();
+            });
     }
 
     public static function tearDownDatabase()
     {
-        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
-        mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
-        mysql_close($db_con);
+        TestDataManager::executeInOpenDatabase(
+            function()
+            {
+                mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
+            });
     }
 
-    private static function ensureTestDataExists()
+    public static function ensureTestDataExists()
     {
         mysql_query("CREATE DATABASE " . __MYSQL_DBNAME__ . ";") or die("ERROR: Unable to create database " . __MYSQL_DBNAME__ . "!");
         mysql_select_db(__MYSQL_DBNAME__) or die("ERROR: Unable to switch to " . __MYSQL_DBNAME__ . "!");
@@ -93,5 +97,12 @@ class TestDataManager {
                 VALUES ('$datum[0]', '$datum[1]', '$datum[2]', '$datum[3]', '$datum[4]', '$datum[5]', '$datum[6]');";
             mysql_query($query);
         }
+    }
+
+    private static function executeInOpenDatabase($fx)
+    {
+        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
+        $fx();
+        mysql_close($db_con);
     }
 }

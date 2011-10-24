@@ -11,12 +11,27 @@ define ("SIMPLE_TEST_TABLE_DDL", "
     create sequence simple_test_id_seq;
     create table simple_test (
         id int not null unique,
+        product text not null,
         start_date timestamp not null,
-        end_time timestamp not null);
+        end_date timestamp not null);
     alter table simple_test alter column id set default nextval('simple_test_id_seq');
     ");
 
 class PostgreSqlTestDataManager {
+
+    public static $sample_data = array
+    (
+        array("Product One", "0001-01-01 00:00:00", "0001-01-01 01:00:00")
+        , array("Product One", "0001-01-02 00:00:00", "0001-01-02 01:00:00")
+        , array("Product One", "0001-01-03 00:00:00", "0001-01-03 01:00:00")
+
+        , array("Product Two", "0001-02-01 00:00:00", "0001-02-01 10:00:00")
+        , array("Product Two", "0001-02-10 00:00:00", "0001-02-11 23:59:59")
+        , array("Product Two", "0001-02-12 00:00:00", "0001-02-12 03:00:00")
+
+        , array("Product Three", "0001-03-15 00:00:00", "0001-03-16 00:00:00")
+        , array("Product Three", "0001-03-30 00:00:00", "0001-03-31 03:00:00")
+    );
 
     public static function setUpDatabase()
     {
@@ -32,6 +47,19 @@ class PostgreSqlTestDataManager {
             function()
             {
                 pg_query(SIMPLE_TEST_TABLE_DDL);
+            } , __PGSQL_DBNAME__
+        );
+
+        PostgreSqlTestDataManager::executeInOpenDatabase(
+            function()
+            {
+                foreach(PostgreSqlTestDataManager::$sample_data as $datum)
+                {
+                    pg_query(
+                        "INSERT INTO simple_test(product, start_date, end_date)
+                        VALUES('$datum[0]', '$datum[1]', '$datum[2]');"
+                    );
+                }
             } , __PGSQL_DBNAME__
         );
     }

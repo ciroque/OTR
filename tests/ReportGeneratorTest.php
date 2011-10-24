@@ -6,7 +6,7 @@
  * Time: 7:10 PM
  */
 
-require_once("TestDataManager.php");
+require_once("MySqlTestDataManager.php");
 require_once(dirname(__FILE__) . "/../source/ReportGenerators/MeanTimeBetweenFailuresReportGenerator.php");
 
 class ReportGeneratorTest extends PHPUnit_Framework_TestCase {
@@ -18,7 +18,7 @@ class ReportGeneratorTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(4, sizeof($report));
 
-        $expected_names = TestDataManager::getDistinctProductNames();
+        $expected_names = MySqlTestDataManager::getDistinctProductNames();
         foreach($expected_names as $name)
         {
             $this->assertTrue(array_key_exists($name, $report));
@@ -29,11 +29,11 @@ class ReportGeneratorTest extends PHPUnit_Framework_TestCase {
 
     public static function setUpBeforeClass()
     {
-        TestDataManager::setUpDatabase();
+        MySqlTestDataManager::setUpDatabase();
     }
 
     public static function tearDownAfterClass()
     {
-        TestDataManager::tearDownDatabase();
+        MySqlTestDataManager::tearDownDatabase();
     }
 }

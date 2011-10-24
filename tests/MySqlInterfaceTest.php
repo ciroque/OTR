@@ -29,9 +29,9 @@ class MySqlInterfaceTest extends PHPUnit_Framework_TestCase
     {
         $sql_interface = $this->createMySqlInterfaceInstance();
 
-        TestDataManager::setUpDatabase();
+        MySqlTestDataManager::setUpDatabase();
         $results = $sql_interface->executeSql("SELECT * FROM Outage;");
-        TestDataManager::tearDownDatabase();
+        MySqlTestDataManager::tearDownDatabase();
 
         $this->assertNotNull($results);
     }

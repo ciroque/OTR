@@ -10,6 +10,7 @@
  */
 
 require_once(dirname(__FILE__) . "/../Core/IReportGenerator.php");
+require_once(dirname(__FILE__) . "/../SqlInterfaces/MySqlInterface.php");
 require_once(dirname(__FILE__) . "/../Calculators/MeanTimeBetweenFailuresCalculator.php");
 require_once(dirname(__FILE__) . "/../DataRetrievers/MeanTimeBetweenFailuresOutageDataRetriever.php");
 require_once(dirname(__FILE__) . "/../SqlInterfaces/MySqlInterface.php");

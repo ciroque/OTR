@@ -6,7 +6,7 @@
  * Time: 3:18 PM
  */
 
-require_once("TestDataManager.php");
+require_once("MySqlTestDataManager.php");
 require_once(dirname(__FILE__) . "/../source/DataRetrievers/OutageDataRetriever.php");
 require_once(dirname(__FILE__) . "/../source/DataRetrievers/MeanTimeBetweenFailuresOutageDataRetriever.php");
 require_once(dirname(__FILE__) . "/../source/Core/OutageData.php");
@@ -37,12 +37,12 @@ class MeanTimeBetweenFailuresOutageDataRetrieverTest extends PHPUnit_Framework_T
 
     public static function setUpBeforeClass()
     {
-        TestDataManager::setUpDatabase();
+        MySqlTestDataManager::setUpDatabase();
     }
 
     public static function tearDownAfterClass()
     {
-        TestDataManager::tearDownDatabase();
+        MySqlTestDataManager::tearDownDatabase();
     }
 }
 ?>

@@ -34,7 +34,7 @@ define ("OUTAGE_TABLE_DDL", "create table Outage
 	restore mediumtext null
 );");
 
-class TestDataManager {
+class MySqlTestDataManager {
 
     private static $sample_data = array
     (
@@ -53,7 +53,7 @@ class TestDataManager {
     public static function getDistinctProductNames()
     {
         $names = array();
-        foreach(TestDataManager::$sample_data as $datum)
+        foreach(MySqlTestDataManager::$sample_data as $datum)
         {
             $names[] = $datum[5];
         }
@@ -63,21 +63,26 @@ class TestDataManager {
 
     public static function setUpDatabase()
     {
-        TestDataManager::executeInOpenDatabase(
+        MySqlTestDataManager::executeInOpenDatabase(
             function()
             {
-                mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
-                TestDataManager::ensureTestDataExists();
+                mysql_query(MySqlTestDataManager::getDropStatement());
+                MySqlTestDataManager::ensureTestDataExists();
             });
     }
 
     public static function tearDownDatabase()
     {
-        TestDataManager::executeInOpenDatabase(
+        MySqlTestDataManager::executeInOpenDatabase(
             function()
             {
-                mysql_query("DROP DATABASE " . __MYSQL_DBNAME__ . ";");
+                mysql_query(MySqlTestDataManager::getDropStatement());
             });
+    }
+
+    public static function getDropStatement()
+    {
+        return "DROP DATABASE " . __MYSQL_DBNAME__ . ";";
     }
 
     public static function ensureTestDataExists()
@@ -85,12 +90,12 @@ class TestDataManager {
         mysql_query("CREATE DATABASE " . __MYSQL_DBNAME__ . ";") or die("ERROR: Unable to create database " . __MYSQL_DBNAME__ . "!");
         mysql_select_db(__MYSQL_DBNAME__) or die("ERROR: Unable to switch to " . __MYSQL_DBNAME__ . "!");
         mysql_query(OUTAGE_TABLE_DDL) or die("ERROR: Unable to create table!");
-        TestDataManager::populateData();
+        MySqlTestDataManager::populateData();
     }
 
     private static function populateData()
     {
-        foreach(TestDataManager::$sample_data as $datum)
+        foreach(MySqlTestDataManager::$sample_data as $datum)
         {
             $query = "INSERT INTO Outage
                 (pop, ticket, start_date, end_date, customer_impact, product, notes_information)

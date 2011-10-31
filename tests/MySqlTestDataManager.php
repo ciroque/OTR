@@ -82,13 +82,13 @@ class MySqlTestDataManager {
 
     public static function getDropStatement()
     {
-        return "DROP DATABASE " . __MYSQL_DBNAME__ . ";";
+        return "DROP DATABASE " . __MYSQL_OUTAGE_DBNAME__ . ";";
     }
 
     public static function ensureTestDataExists()
     {
-        mysql_query("CREATE DATABASE " . __MYSQL_DBNAME__ . ";") or die("ERROR: Unable to create database " . __MYSQL_DBNAME__ . "!");
-        mysql_select_db(__MYSQL_DBNAME__) or die("ERROR: Unable to switch to " . __MYSQL_DBNAME__ . "!");
+        mysql_query("CREATE DATABASE " . __MYSQL_OUTAGE_DBNAME__ . ";") or die("ERROR: Unable to create database " . __MYSQL_OUTAGE_DBNAME__ . "!");
+        mysql_select_db(__MYSQL_OUTAGE_DBNAME__) or die("ERROR: Unable to switch to " . __MYSQL_OUTAGE_DBNAME__ . "!");
         mysql_query(OUTAGE_TABLE_DDL) or die("ERROR: Unable to create table!");
         MySqlTestDataManager::populateData();
     }
@@ -106,7 +106,7 @@ class MySqlTestDataManager {
 
     private static function executeInOpenDatabase($fx)
     {
-        $db_con = mysql_connect(__MYSQL_HOSTNAME__, __MYSQL_USERNAME__, __MYSQL_PASSWORD__);
+        $db_con = mysql_connect(__MYSQL_OUTAGE_HOSTNAME__, __MYSQL_OUTAGE_USERNAME__, __MYSQL_OUTAGE_PASSWORD__);
         $fx();
         mysql_close($db_con);
     }

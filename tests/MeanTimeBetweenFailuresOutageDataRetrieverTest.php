@@ -20,10 +20,10 @@ class MeanTimeBetweenFailuresOutageDataRetrieverTest extends PHPUnit_Framework_T
     public function testRetrieverReturnsTimeSeriesForSpecificProduct()
     {
         $sql_interface = new MySqlInterface(
-            __MYSQL_HOSTNAME__,
-            __MYSQL_DBNAME__,
-            __MYSQL_USERNAME__,
-            __MYSQL_PASSWORD__);
+            __MYSQL_OUTAGE_HOSTNAME__,
+            __MYSQL_OUTAGE_DBNAME__,
+            __MYSQL_OUTAGE_USERNAME__,
+            __MYSQL_OUTAGE_PASSWORD__);
         $retriever = new MeanTimeBetweenFailuresOutageDataRetriever($sql_interface);
         $retrieved = $retriever->retrieve("Product1");
         $this->assertEquals(3, $retrieved->getRowCount());

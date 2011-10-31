@@ -11,10 +11,10 @@
 /* ***************************************************************************
  *  The MySQL configuration parameters.
  */
-define("__MYSQL_HOSTNAME__", "localhost");
-define("__MYSQL_DBNAME__", "__test_data__");
-define("__MYSQL_USERNAME__", "dev_test");
-define("__MYSQL_PASSWORD__", "dev&test");
+define("__MYSQL_OUTAGE_HOSTNAME__", "localhost");
+define("__MYSQL_OUTAGE_DBNAME__", "__test_data__");
+define("__MYSQL_OUTAGE_USERNAME__", "dev_test");
+define("__MYSQL_OUTAGE_PASSWORD__", "dev&test");
 
 /* ***************************************************************************
  *  The PostgreSQL configuration parameters.
